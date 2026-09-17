@@ -797,7 +797,7 @@ function svgArt2() {
         '</svg>';
 }
 
-/* art3: Aksara Kuno */
+/* art3: Aksara Kuno — FIXED GLYPHS */
 function svgArt3() {
     var g = uid('a3g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
@@ -809,15 +809,14 @@ function svgArt3() {
         '<rect x="60" y="45" width="280" height="130" rx="10" fill="none" stroke="#a97b2a" stroke-width="2"/>' +
         '<rect x="60" y="45" width="280" height="18" rx="9" fill="#c99a45"/>' +
         '<rect x="60" y="157" width="280" height="18" rx="9" fill="#c99a45"/>' +
-        /* script glyphs */
+        /* script glyphs — proper stylized characters */
         '<g stroke="#3b1f0a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">' +
-        '<path d="M85 90 h22 M96 90 v30 M85 120 h22"/>' +
-        '<path d="M130 90 q11 15 0 30 q11 -15 0 -30"/>' +
-        '<path d="M165 120 v-30 h20 v30"/>' +
-        '<path d="M205 90 v30 M205 90 h20 M205 105 h14"/>' +
-        '<path d="M245 120 v-30 q20 0 20 15 t-20 15"/>' +
-        '<path d="M290 90 h20 v30 h-20 z"/>' +
-        '<path d="M325 90 q-10 15 0 30 M335 90 q10 15 0 30"/>' +
+        '<path d="M90 90 q15 -15 25 0 v20 q-10 10 -25 0 z"/>' +
+        '<path d="M140 90 v30 M140 105 h15 M140 120 h15"/>' +
+        '<path d="M190 90 q20 15 0 30 q-20 -15 0 -30"/>' +
+        '<path d="M240 90 v30 M240 90 h25 M240 105 h20"/>' +
+        '<path d="M290 90 h25 v30 h-25 z M302 90 v30"/>' +
+        '<path d="M340 90 q-15 15 0 30 M355 90 q15 15 0 30"/>' +
         '</g>' +
         '<text x="200" y="205" font-family="Georgia,serif" font-size="13" fill="#f5e4b8" text-anchor="middle" letter-spacing="3">AKSARA NUSANTARA</text>' +
         '</svg>';
