@@ -597,13 +597,7 @@
                 </strong>
                 <a href="mailto:info@lingua.com">info@lingua.com</a>
             </div>
-            <div class="contact-row">
-                <strong>
-                    <svg class="ico" viewBox="0 0 24 24"><path d="M22 16v3a2 2 0 0 1-2 2A17 17 0 0 1 3 4a2 2 0 0 1 2-2h3l2 5-2 1a12 12 0 0 0 5 5l1-2 5 2z"/></svg>
-                    Telepon:
-                </strong>
-                +62-274-XXX-XXX
-            </div>
+            <!-- Telepon dihilangkan sesuai permintaan -->
             <div class="contact-row">
                 <strong>
                     <svg class="ico" viewBox="0 0 24 24"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
@@ -695,7 +689,7 @@
             <div class="footer-section">
                 <h3>KONTAK</h3>
                 <a href="mailto:info@lingua.com">info@lingua.com</a>
-                <a>+62-274-XXX-XXX</a>
+                <!-- Telepon dihilangkan sesuai permintaan -->
                 <a>Jayapura, Papua Barat</a>
             </div>
         </div>
@@ -726,10 +720,13 @@
 <script>
 /* =========================================================
    ILUSTRASI SVG PENGGANTI EMOJI / GAMBAR ARTIKEL
+   Setiap fungsi mengembalikan SVG dengan ID unik agar aman
+   ketika dirender berkali-kali di halaman yang sama.
    ========================================================= */
 var __svgUid = 0;
 function uid(prefix) { return prefix + (++__svgUid); }
 
+/* --- Ikon kecil (dipakai di meta, dsb.) --- */
 var ICO = {
     calendar: '<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>',
     user:     '<svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
@@ -737,6 +734,9 @@ var ICO = {
     pin:      '<svg class="ico" viewBox="0 0 24 24"><path d="M12 22s7-7 7-12a7 7 0 1 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>'
 };
 
+/* --- Ilustrasi besar untuk tiap artikel --- */
+
+/* art1: Perbandingan Bahasa Mee & Spanyol */
 function svgArt1() {
     var g1 = uid('a1g'), g2 = uid('a1h');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
@@ -749,16 +749,19 @@ function svgArt1() {
         '<rect width="400" height="220" fill="url(#' + g1 + ')"/>' +
         '<circle cx="340" cy="35" r="80" fill="#ffffff" opacity="0.05"/>' +
         '<circle cx="55" cy="195" r="95" fill="#ffffff" opacity="0.05"/>' +
+        /* left bubble */
         '<g>' +
         '<rect x="35" y="55" width="150" height="80" rx="16" fill="#4ade80"/>' +
         '<path d="M60 135 L72 158 L92 135 Z" fill="#4ade80"/>' +
         '<text x="110" y="103" font-family="Georgia,serif" font-size="30" font-weight="bold" fill="#0b3d2e" text-anchor="middle">MEE</text>' +
         '</g>' +
+        /* right bubble */
         '<g>' +
         '<rect x="215" y="95" width="150" height="80" rx="16" fill="url(#' + g2 + ')"/>' +
         '<path d="M318 175 L330 198 L350 175 Z" fill="#e07b00"/>' +
         '<text x="290" y="143" font-family="Georgia,serif" font-size="21" font-weight="bold" fill="#3b1f00" text-anchor="middle">ESPAÑOL</text>' +
         '</g>' +
+        /* swap arrows */
         '<g stroke="#ffffff" stroke-width="3" fill="none" opacity="0.75" stroke-linecap="round" stroke-linejoin="round">' +
         '<path d="M188 82 q14 -22 28 0"/>' +
         '<path d="M212 138 q-14 22 -28 0"/>' +
@@ -766,16 +769,20 @@ function svgArt1() {
         '</svg>';
 }
 
+/* art2: Pemetaan Bahasa Papua */
 function svgArt2() {
     var g = uid('a2g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#062b1e"/><stop offset="1" stop-color="#166b4a"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* grid pattern */
         '<g stroke="#4ade80" stroke-width="0.6" opacity="0.18">' +
         (function(){ var s=''; for(var x=20;x<400;x+=28){ s+='<line x1="'+x+'" y1="0" x2="'+x+'" y2="220"/>'; } for(var y=20;y<220;y+=28){ s+='<line x1="0" y1="'+y+'" x2="400" y2="'+y+'"/>'; } return s; })() +
         '</g>' +
+        /* island silhouette */
         '<path d="M60 120 Q90 60 150 70 Q215 80 260 55 Q320 40 350 80 Q365 110 340 145 Q300 185 240 175 Q180 168 130 180 Q80 185 60 150 Z" fill="#0d3b22" stroke="#4ade80" stroke-width="2" opacity="0.9"/>' +
+        /* pins */
         '<g fill="#ff6b5b">' +
         '<circle cx="120" cy="105" r="6"/><circle cx="175" cy="95" r="6"/>' +
         '<circle cx="230" cy="120" r="6"/><circle cx="285" cy="105" r="6"/>' +
@@ -790,16 +797,19 @@ function svgArt2() {
         '</svg>';
 }
 
+/* art3: Aksara Kuno */
 function svgArt3() {
     var g = uid('a3g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#3b1f0a"/><stop offset="1" stop-color="#8a5a1e"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* scroll */
         '<rect x="60" y="45" width="280" height="130" rx="10" fill="#f5e4b8" opacity="0.95"/>' +
         '<rect x="60" y="45" width="280" height="130" rx="10" fill="none" stroke="#a97b2a" stroke-width="2"/>' +
         '<rect x="60" y="45" width="280" height="18" rx="9" fill="#c99a45"/>' +
         '<rect x="60" y="157" width="280" height="18" rx="9" fill="#c99a45"/>' +
+        /* script glyphs */
         '<g stroke="#3b1f0a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">' +
         '<path d="M85 90 h22 M96 90 v30 M85 120 h22"/>' +
         '<path d="M130 90 q11 15 0 30 q11 -15 0 -30"/>' +
@@ -813,22 +823,28 @@ function svgArt3() {
         '</svg>';
 }
 
+/* art4: Bahasa Ibu vs Bahasa Asing */
 function svgArt4() {
     var g = uid('a4g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#12294a"/><stop offset="1" stop-color="#2a6ca8"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* adult */
         '<circle cx="120" cy="105" r="22" fill="#f5c9a0"/>' +
         '<path d="M120 130 q-30 0 -30 40 v20 h60 v-20 q0 -40 -30 -40z" fill="#1a472a"/>' +
+        /* child */
         '<circle cx="200" cy="145" r="15" fill="#f5c9a0"/>' +
         '<path d="M200 162 q-20 0 -20 26 v12 h40 v-12 q0 -26 -20 -26z" fill="#ff6b5b"/>' +
+        /* speech bubble 1 */
         '<rect x="35" y="45" width="100" height="48" rx="12" fill="#ffffff" opacity="0.95"/>' +
         '<path d="M60 93 L72 110 L84 93 Z" fill="#ffffff" opacity="0.95"/>' +
         '<text x="85" y="75" font-family="Georgia,serif" font-size="15" font-weight="bold" fill="#1a472a" text-anchor="middle">Bahasa Ibu</text>' +
+        /* speech bubble 2 */
         '<rect x="245" y="55" width="120" height="48" rx="12" fill="#ffffff" opacity="0.95"/>' +
         '<path d="M285 103 L297 120 L309 103 Z" fill="#ffffff" opacity="0.95"/>' +
         '<text x="305" y="85" font-family="Georgia,serif" font-size="15" font-weight="bold" fill="#ff6b5b" text-anchor="middle">Foreign Lang.</text>' +
+        /* arrows to child */
         '<g stroke="#ffffff" stroke-width="2.5" fill="none" opacity="0.7" stroke-dasharray="5 4">' +
         '<path d="M135 95 q25 40 45 55"/>' +
         '<path d="M270 110 q-30 30 -55 45"/>' +
@@ -836,17 +852,21 @@ function svgArt4() {
         '</svg>';
 }
 
+/* art5: Koneksi Budaya Global */
 function svgArt5() {
     var g = uid('a5g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#1a1a2e"/><stop offset="1" stop-color="#3a2d6b"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* stars */
         (function(){ var s='',pts=[[40,30],[90,55],[330,35],[360,90],[55,180],[350,180],[200,25],[270,190],[120,25]]; for(var i=0;i<pts.length;i++){ s+='<circle cx="'+pts[i][0]+'" cy="'+pts[i][1]+'" r="1.5" fill="#ffffff" opacity="0.5"/>'; } return s; })() +
+        /* globe */
         '<circle cx="200" cy="115" r="62" fill="#0d3b22" stroke="#4ade80" stroke-width="2"/>' +
         '<ellipse cx="200" cy="115" rx="62" ry="24" fill="none" stroke="#4ade80" stroke-width="1.2" opacity="0.6"/>' +
         '<ellipse cx="200" cy="115" rx="26" ry="62" fill="none" stroke="#4ade80" stroke-width="1.2" opacity="0.6"/>' +
         '<path d="M200 53 v124 M138 115 h124" stroke="#4ade80" stroke-width="1" opacity="0.4"/>' +
+        /* connection arcs */
         '<g fill="none" stroke="#ff6b5b" stroke-width="2" stroke-linecap="round">' +
         '<path d="M200 115 Q270 40 340 70"/>' +
         '<path d="M200 115 Q120 40 60 75"/>' +
@@ -861,14 +881,17 @@ function svgArt5() {
         '</svg>';
 }
 
+/* art6: Warisan Budaya Digital */
 function svgArt6() {
     var g = uid('a6g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="0" y2="1">' +
         '<stop offset="0" stop-color="#0b2b45"/><stop offset="1" stop-color="#1c5e8a"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* temple base */
         '<rect x="80" y="160" width="240" height="30" fill="#c9a35a"/>' +
         '<rect x="95" y="120" width="210" height="45" fill="#e0bb77"/>' +
+        /* columns */
         '<g fill="#c9a35a">' +
         '<rect x="105" y="80" width="18" height="45"/>' +
         '<rect x="150" y="80" width="18" height="45"/>' +
@@ -876,8 +899,10 @@ function svgArt6() {
         '<rect x="240" y="80" width="18" height="45"/>' +
         '<rect x="285" y="80" width="18" height="45"/>' +
         '</g>' +
+        /* roof */
         '<path d="M80 80 L200 30 L320 80 Z" fill="#8a5a1e"/>' +
         '<path d="M100 80 L200 42 L300 80 Z" fill="#b07b2a"/>' +
+        /* pixel overlay (digitalisasi) */
         '<g fill="#4ade80" opacity="0.55">' +
         '<rect x="300" y="120" width="12" height="12"/><rect x="312" y="132" width="12" height="12"/>' +
         '<rect x="300" y="144" width="12" height="12"/><rect x="324" y="144" width="12" height="12"/>' +
@@ -890,24 +915,31 @@ function svgArt6() {
         '</svg>';
 }
 
+/* art7: Seni Tradisional (Topeng Ukir) */
 function svgArt7() {
     var g = uid('a7g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#4a1a0a"/><stop offset="1" stop-color="#a0410f"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* mask */
         '<path d="M200 30 Q270 30 280 110 Q285 175 200 200 Q115 175 120 110 Q130 30 200 30 Z" fill="#e0bb77" stroke="#5b2a0a" stroke-width="3"/>' +
+        /* eyes */
         '<ellipse cx="165" cy="100" rx="16" ry="11" fill="#3b1f0a"/>' +
         '<ellipse cx="235" cy="100" rx="16" ry="11" fill="#3b1f0a"/>' +
         '<circle cx="165" cy="100" r="4" fill="#ff6b5b"/>' +
         '<circle cx="235" cy="100" r="4" fill="#ff6b5b"/>' +
+        /* nose */
         '<path d="M200 105 v35 l-12 8 M200 140 l12 8" stroke="#5b2a0a" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+        /* mouth */
         '<path d="M165 165 q35 22 70 0" stroke="#5b2a0a" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+        /* pattern lines */
         '<g stroke="#5b2a0a" stroke-width="1.5" fill="none" opacity="0.6">' +
         '<path d="M150 60 q50 -18 100 0"/>' +
         '<path d="M140 130 q-8 20 4 40"/>' +
         '<path d="M260 130 q8 20 -4 40"/>' +
         '</g>' +
+        /* decorative dots */
         '<g fill="#ff6b5b" opacity="0.8">' +
         '<circle cx="150" cy="55" r="3"/><circle cx="250" cy="55" r="3"/>' +
         '<circle cx="130" cy="140" r="3"/><circle cx="270" cy="140" r="3"/>' +
@@ -915,20 +947,25 @@ function svgArt7() {
         '</svg>';
 }
 
+/* art8: Musik Tradisional (Tifa) */
 function svgArt8() {
     var g = uid('a8g');
     return '<svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
         '<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#3a1a4a"/><stop offset="1" stop-color="#7a2f8a"/></linearGradient></defs>' +
         '<rect width="400" height="220" fill="url(#' + g + ')"/>' +
+        /* tifa drum body */
         '<path d="M185 60 L215 60 L232 175 Q200 195 168 175 Z" fill="#a95f2a" stroke="#5b2a0a" stroke-width="3"/>' +
+        /* drum skin */
         '<ellipse cx="200" cy="60" rx="15" ry="7" fill="#f5e4b8" stroke="#5b2a0a" stroke-width="3"/>' +
+        /* drum pattern lines */
         '<g stroke="#5b2a0a" stroke-width="1.8" fill="none" opacity="0.65">' +
         '<path d="M180 90 Q200 100 220 90"/>' +
         '<path d="M176 115 Q200 125 224 115"/>' +
         '<path d="M173 140 Q200 150 227 140"/>' +
         '<path d="M170 165 Q200 175 230 165"/>' +
         '</g>' +
+        /* sound waves */
         '<g stroke="#4ade80" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.85">' +
         '<path d="M255 70 q15 12 0 24"/>' +
         '<path d="M272 58 q26 22 0 44"/>' +
@@ -939,6 +976,7 @@ function svgArt8() {
         '<path d="M128 58 q-26 22 0 44"/>' +
         '<path d="M111 46 q-37 32 0 64"/>' +
         '</g>' +
+        /* music notes */
         '<g fill="#4ade80">' +
         '<circle cx="90" cy="70" r="7"/><rect x="95" y="42" width="3" height="28"/>' +
         '<circle cx="310" cy="70" r="7"/><rect x="315" y="42" width="3" height="28"/>' +
