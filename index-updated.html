@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SASTRAPAPUA - Berita Bahasa & Budaya Papua</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(180deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            border-bottom: 3px solid #ff6b5b;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: 2px; padding: 18px 0; flex-shrink: 0; cursor: pointer; }
+        .logo-sub { font-size: 12px; opacity: 0.85; font-weight: 600; letter-spacing: 0.5px; }
+
+        .nav { display: flex; gap: 25px; font-size: 13px; padding: 18px 0; flex-grow: 1; }
+        .nav a { color: white; text-decoration: none; transition: all 0.3s; font-weight: 600; position: relative; padding-bottom: 5px; }
+        .nav a:after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #ff6b5b; transition: width 0.3s; }
+        .nav a:hover { color: #ff6b5b; }
+        .nav a:hover:after { width: 100%; }
+        .nav a.active { color: #ff6b5b; }
+        .nav a.active:after { width: 100%; }
+
+        /* TRUST BAR (keamanan level situs nasional) */
+        .trust-bar {
+            background: #0d3b22;
+            color: #cfe8d8;
+            font-size: 11.5px;
+            padding: 7px 15px;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .trust-bar span { display: flex; align-items: center; gap: 5px; }
+
+        /* CONTAINER */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+        /* AD BANNER (tampil di SEMUA device) */
+        .ad-banner {
+            max-width: 1200px;
+            margin: 12px auto 0 auto;
+            padding: 0 15px;
+        }
+        .ad-banner-inner {
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(255,140,0,0.3);
+            transition: transform 0.2s;
+        }
+        .ad-banner-inner:hover { transform: scale(1.01); }
+        .ad-banner-inner .ad-cta {
+            background: white;
+            color: #e07b00;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .ad-label { font-size: 10px; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 2px; }
+
+        /* BREAKING NEWS */
+        .breaking-news {
+            background: #ff6b5b;
+            color: white;
+            padding: 8px 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* FEATURED */
+        .featured {
+            background: white;
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transition: box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .featured:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+
+        .featured-image {
+            width: 100%; height: 420px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 40%, #4a8f63 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 56px; font-weight: bold;
+            position: relative; overflow: hidden;
+        }
+        .featured-image:before {
+            content: ''; position: absolute; top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 8s infinite;
+        }
+        @keyframes shimmer { 0% { transform: translate(-100%, -100%); } 100% { transform: translate(100%, 100%); } }
+
+        .featured-content { padding: 20px; }
+        .featured-category { color: #1a472a; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+        .featured-title { font-size: 28px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; color: #1a1a1a; }
+        .featured-desc { font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 15px; }
+        .featured-meta { font-size: 13px; color: #888; display: flex; gap: 15px; flex-wrap: wrap; }
+
+        /* ARTICLES GRID */
+        .articles-section { margin: 30px 0; }
+        .section-title {
+            font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #1a1a1a;
+            border-left: 5px solid #ff6b5b; padding-left: 15px; letter-spacing: -0.5px;
+        }
+
+        .articles-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        @media (min-width: 768px) { .articles-grid { grid-template-columns: 1fr 1fr; } }
+
+        .article-card {
+            background: white; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer; text-decoration: none; color: inherit; display: block;
+            border: 1px solid #f0f0f0;
+        }
+        .article-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.18); border-color: #ff6b5b; }
+
+        .article-image {
+            width: 100%; height: 220px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #4a8f63 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 40px; font-weight: bold;
+            position: relative; overflow: hidden;
+        }
+        .article-image:after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: slide 3s infinite;
+        }
+        @keyframes slide { 0% { left: -100%; } 100% { left: 100%; } }
+
+        .article-content { padding: 15px; }
+        .article-category { font-size: 11px; color: #1a472a; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+        .article-title { font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; color: #1a1a1a; }
+        .article-desc {
+            font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 10px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .article-meta { font-size: 12px; color: #999; }
+
+        /* ARTICLE DETAIL */
+        .article-detail { background: white; margin: 20px 0; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .article-detail-image {
+            width: 100%; height: 380px; border-radius: 12px;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 40%, #4a8f63 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 72px; margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            position: relative; overflow: hidden;
+        }
+        .article-detail-header { margin-bottom: 25px; }
+        .detail-category { color: #1a472a; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .detail-title { font-size: 32px; font-weight: 800; line-height: 1.3; margin-bottom: 12px; color: #1a1a1a; }
+        .detail-meta { font-size: 13px; color: #888; display: flex; flex-wrap: wrap; gap: 15px; }
+        .detail-content { font-size: 15px; line-height: 1.8; color: #444; margin-bottom: 25px; }
+        .detail-content p { margin-bottom: 15px; }
+        .detail-content h2 { font-size: 22px; font-weight: 700; margin: 25px 0 15px 0; color: #1a1a1a; }
+
+        /* TABLE */
+        .comparison-table {
+            width: 100%; border-collapse: collapse; margin: 30px 0;
+            background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-radius: 10px; overflow: hidden; border: 1px solid #e8e8e8;
+        }
+        .comparison-table th {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: white; padding: 18px 15px; text-align: left;
+            font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .comparison-table td { padding: 15px; border-bottom: 1px solid #f0f0f0; font-size: 14px; line-height: 1.6; }
+        .comparison-table tr:hover { background: #f8f8f8; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table strong { color: #1a472a; font-weight: 700; }
+        .comparison-table em { color: #ff6b5b; font-style: italic; }
+
+        /* BACK BUTTON */
+        .back-button {
+            display: inline-block; background: #1a472a; color: white;
+            padding: 10px 20px; border-radius: 4px; text-decoration: none;
+            font-size: 14px; font-weight: 600; margin: 20px 0;
+            transition: background 0.3s; cursor: pointer; border: none;
+        }
+        .back-button:hover { background: #2d5a3d; }
+
+        /* REPORT BUTTON (anti-hoaks) */
+        .report-box {
+            background: #fff8f0; border: 1px dashed #ffa500; border-radius: 8px;
+            padding: 15px 20px; margin: 25px 0; font-size: 13px; color: #666;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+        }
+        .report-btn {
+            background: #ffa500; color: white; border: none; padding: 8px 16px;
+            border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px;
+        }
+        .report-btn:hover { background: #e69500; }
+
+        /* FOOTER */
+        footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: white; padding: 50px 0 30px 0; margin-top: 60px;
+            font-size: 13px; border-top: 3px solid #ff6b5b;
+        }
+        .footer-content { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+        @media (min-width: 768px) { .footer-content { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+        .footer-section h3 { margin-bottom: 12px; font-size: 14px; }
+        .footer-section a { color: #999; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s; cursor: pointer; }
+        .footer-section a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #333; padding-top: 20px; text-align: center; color: #666; }
+        .footer-security-badges { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .sec-badge {
+            background: #222; border: 1px solid #444; color: #8fbf9f;
+            padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 600;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ADS SIDEBAR (desktop only, lebih besar) */
+        .ad-sidebar {
+            background: white; padding: 15px; border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            position: fixed; right: 15px; top: 160px;
+            width: 300px; z-index: 90;
+            border: 1px solid #ffe0b3;
+        }
+        .ad-sidebar-title { font-size: 11px; color: #999; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+        .ad-box {
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            color: white; padding: 35px 15px; border-radius: 8px;
+            text-align: center; font-weight: bold; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .ad-box:hover { transform: scale(1.03); }
+
+        /* ADS POPUP (tersambung ke situs) */
+        .ad-popup {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: white; padding: 30px; border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1000; max-width: 90%; width: 400px; text-align: center;
+        }
+        .ad-popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        .ad-popup-close {
+            position: absolute; top: 10px; right: 10px; background: #eee; border: none;
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            font-size: 18px; display: flex; align-items: center; justify-content: center;
+        }
+        .ad-popup-close:hover { background: #ddd; }
+        .ad-popup h3 { color: #1a472a; margin-bottom: 15px; font-size: 20px; }
+        .ad-popup p { color: #666; font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+        .ad-popup-btn {
+            background: #ff6b5b; color: white; border: none; padding: 12px 30px;
+            border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;
+        }
+        .ad-popup-btn:hover { background: #ff5a47; }
+
+        /* COOKIE CONSENT */
+        .cookie-banner {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #1a1a1a; color: white; padding: 15px 20px;
+            z-index: 950; display: flex; align-items: center; justify-content: center;
+            gap: 15px; flex-wrap: wrap; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            font-size: 13px;
+        }
+        .cookie-banner button {
+            background: #ff6b5b; color: white; border: none; padding: 8px 24px;
+            border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px;
+        }
+        .cookie-banner button:hover { background: #ff5a47; }
+
+        /* MODAL (privasi/disclaimer) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 1001;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-box {
+            background: white; border-radius: 12px; max-width: 500px; width: 100%;
+            max-height: 80vh; overflow-y: auto; padding: 30px; position: relative;
+        }
+        .modal-box h3 { color: #1a472a; margin-bottom: 15px; font-size: 20px; }
+        .modal-box p { color: #555; font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+        .modal-close {
+            position: absolute; top: 12px; right: 12px; background: #eee; border: none;
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .ad-sidebar { width: 260px; right: 10px; top: 150px; }
+            .ad-popup { width: 85%; padding: 20px; }
+            .featured-title { font-size: 22px; }
+            .detail-title { font-size: 24px; }
+            .nav { gap: 12px; font-size: 12px; }
+            .featured-image, .article-detail-image { height: 250px; }
+            .comparison-table th, .comparison-table td { padding: 10px; font-size: 12px; }
+        }
+
+        @media (max-width: 480px) {
+            .ad-sidebar { display: none; } /* mobile pakai ad-banner di atas */
+            .logo { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="showHome()">
+                SASTRAPAPUA
+                <div class="logo-sub">Berita Bahasa & Budaya</div>
+            </div>
+            <nav class="nav">
+                <a href="#" id="nav-home" class="active" onclick="showHome(); return false;">Beranda</a>
+                <a href="#" id="nav-bahasa" onclick="showCategory('bahasa'); return false;">Bahasa</a>
+                <a href="#" id="nav-budaya" onclick="showCategory('budaya'); return false;">Budaya</a>
+                <a href="#" id="nav-kontak" onclick="showCategory('kontak'); return false;">Kontak</a>
+            </nav>
+        </div>
+        <!-- TRUST BAR: kesan situs resmi & aman -->
+        <div class="trust-bar">
+            <span>🔒 Koneksi Aman (HTTPS)</span>
+            <span>✅ Konten Terverifikasi Redaksi</span>
+            <span>🛡️ Sistem Anti-Hoaks Aktif</span>
+            <span>📜 Terdaftar sebagai Media Siber</span>
+        </div>
+    </header>
+
+    <!-- AD BANNER (tampil di semua device, termasuk mobile) -->
+    <div class="ad-banner" onclick="openAdSite()">
+        <div class="ad-banner-inner">
+            <div>
+                <span class="ad-label">Iklan</span>
+                🎓 Kuasai Bahasa-Bahasa Eksotis Dunia — Kursus Premium Diskon 50%!
+            </div>
+            <span class="ad-cta">Kunjungi Situs →</span>
+        </div>
+    </div>
+
+    <!-- ADS SIDEBAR (desktop) -->
+    <div class="ad-sidebar">
+        <div class="ad-sidebar-title">💰 Iklan</div>
+        <div class="ad-box" onclick="openAdSite()">
+            🚀<br><br>Dapatkan Diskon Hingga 50% Untuk Kursus Bahasa Premium!<br><br><span style="font-size:12px;opacity:0.9;">Klik di sini →</span>
+        </div>
+    </div>
+
+    <!-- ADS POPUP -->
+    <div id="ad-popup" class="hidden">
+        <div class="ad-popup-overlay" onclick="closeAdPopup()"></div>
+        <div class="ad-popup">
+            <button class="ad-popup-close" onclick="closeAdPopup()">×</button>
+            <h3>🎉 Penawaran Spesial!</h3>
+            <p>Bergabunglah dengan ribuan peserta yang telah mempelajari bahasa-bahasa eksotis dunia. Gratis untuk 30 hari pertama!</p>
+            <button class="ad-popup-btn" onclick="openAdSite()">Pelajari Lebih Lanjut →</button>
+        </div>
+    </div>
+
+    <!-- COOKIE CONSENT -->
+    <div id="cookie-banner" class="cookie-banner hidden">
+        <span>🍪 Kami menggunakan cookie untuk meningkatkan pengalaman Anda, sebagaimana Kebijakan Privasi kami.</span>
+        <button onclick="acceptCookies()">Saya Mengerti</button>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal-overlay hidden" onclick="if(event.target===this) closeModal()">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h3 id="modal-title"></h3>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="home-page">
+        <div class="container">
+            <div style="margin-top: 15px;">
+                <span class="breaking-news">🔥 TREN HARI INI</span>
+            </div>
+
+            <article class="featured" onclick="showArticle('art1')">
+                <div class="featured-image">📚</div>
+                <div class="featured-content">
+                    <div class="featured-category">Linguistik</div>
+                    <h1 class="featured-title">Bahasa Mee Papua: Persamaan Mengejutkan dengan Bahasa Spanyol</h1>
+                    <p class="featured-desc">
+                        Sebuah penelitian terbaru mengungkapkan keunikan bahasa Mee dari Papua Barat yang memiliki kesamaan leksikon dengan bahasa Spanyol. Temuan ini membuka diskusi baru tentang koneksi linguistik antar budaya.
+                    </p>
+                    <div class="featured-meta">
+                        <span>📅 17 September 2026</span>
+                        <span>👤 Dr. Ahmad Wijaya</span>
+                        <span>🕐 5 menit baca</span>
+                    </div>
+                </div>
+            </article>
+
+            <section class="articles-section">
+                <h2 class="section-title">Artikel Terkait</h2>
+                <div class="articles-grid" id="home-grid"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- CATEGORY PAGE: BAHASA -->
+    <div id="category-bahasa" class="hidden">
+        <div class="container">
+            <div style="margin-top: 30px; margin-bottom: 30px;">
+                <h1 style="font-size: 32px; color: #1a1a1a; margin-bottom: 10px;">📚 Kategori: BAHASA</h1>
+                <p style="color: #666; font-size: 15px;">Jelajahi artikel-artikel menarik seputar linguistik dan bahasa daerah Indonesia.</p>
+            </div>
+            <section class="articles-section">
+                <div class="articles-grid" id="grid-bahasa"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- CATEGORY PAGE: BUDAYA -->
+    <div id="category-budaya" class="hidden">
+        <div class="container">
+            <div style="margin-top: 30px; margin-bottom: 30px;">
+                <h1 style="font-size: 32px; color: #1a1a1a; margin-bottom: 10px;">🎭 Kategori: BUDAYA</h1>
+                <p style="color: #666; font-size: 15px;">Pelajari warisan budaya dan tradisi dari berbagai belahan dunia.</p>
+            </div>
+            <section class="articles-section">
+                <div class="articles-grid" id="grid-budaya"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- CATEGORY PAGE: KONTAK -->
+    <div id="category-kontak" class="hidden">
+        <div class="container">
+            <div style="margin-top: 30px; margin-bottom: 30px;">
+                <h1 style="font-size: 32px; color: #1a1a1a; margin-bottom: 10px;">📞 Hubungi Kami</h1>
+                <p style="color: #666; font-size: 15px;">Ada pertanyaan atau saran? Kami siap mendengarkan Anda.</p>
+            </div>
+
+            <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-width: 600px; margin-bottom: 30px;">
+                <h3 style="font-size: 20px; margin-bottom: 20px; color: #1a1a1a;">Informasi Kontak</h3>
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                    <strong style="color: #1a472a;">Email:</strong><br>
+                    <a href="mailto:info@sastrapapua.org" style="color: #ff6b5b; text-decoration: none;">info@sastrapapua.org</a>
+                </div>
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                    <strong style="color: #1a472a;">Telepon:</strong><br>+62-274-XXX-XXX
+                </div>
+                <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                    <strong style="color: #1a472a;">Alamat:</strong><br>Jl. Pandawa No. 42<br>Jayapura, Papua Barat 99111<br>Indonesia
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <strong style="color: #1a472a;">Jam Kerja:</strong><br>Senin - Jumat: 09:00 - 17:00 WIT<br>Sabtu & Minggu: Tutup
+                </div>
+            </div>
+
+            <!-- Form laporan (simulasi keamanan) -->
+            <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-width: 600px; margin-bottom: 50px;">
+                <h3 style="font-size: 20px; margin-bottom: 15px; color: #1a1a1a;">🛡️ Laporkan Konten</h3>
+                <p style="color: #666; font-size: 13px; margin-bottom: 15px;">Temukan berita hoaks atau konten menyesatkan? Laporkan di sini. Tim verifikasi kami akan meninjau dalam 1x24 jam.</p>
+                <textarea id="report-text" placeholder="Jelaskan konten yang ingin Anda laporkan..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 13px; height: 100px; margin-bottom: 12px;"></textarea>
+                <button onclick="submitReport()" style="background: #1a472a; color: white; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: 600;">Kirim Laporan</button>
+                <span id="report-msg" style="color: #1a472a; font-size: 13px; margin-left: 10px; font-weight: 600;"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE DETAIL PAGE -->
+    <div id="article-detail-page" class="hidden">
+        <div class="container">
+            <button class="back-button" onclick="goBack()">← Kembali</button>
+            <article class="article-detail">
+                <div class="article-detail-image" id="detail-image">📚</div>
+                <div class="article-detail-header">
+                    <div class="detail-category" id="detail-category"></div>
+                    <h1 class="detail-title" id="detail-title"></h1>
+                    <div class="detail-meta" id="detail-meta"></div>
+                </div>
+                <div class="detail-content" id="detail-content"></div>
+
+                <!-- Iklan di dalam artikel -->
+                <div class="ad-banner-inner" style="margin: 20px 0;" onclick="openAdSite()">
+                    <div>
+                        <span class="ad-label">Iklan</span>
+                        🎓 Belajar Bahasa Eksotis Jadi Lebih Mudah — Coba Gratis 30 Hari!
+                    </div>
+                    <span class="ad-cta">Buka →</span>
+                </div>
+
+                <!-- Report box anti-hoaks -->
+                <div class="report-box">
+                    <span>🛡️ Menemukan informasi yang tidak akurat pada artikel ini? Bantu kami menjaga kualitas konten.</span>
+                    <button class="report-btn" onclick="reportArticle()">Laporkan Artikel</button>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TENTANG KAMI</h3>
+                    <p style="color: #999; margin-bottom: 10px;">SASTRAPAPUA adalah platform informasi terdepan untuk berita dan penelitian tentang bahasa serta budaya Papua.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>KATEGORI</h3>
+                    <a onclick="showCategory('bahasa')">Bahasa</a>
+                    <a onclick="showCategory('budaya')">Budaya</a>
+                    <a onclick="showCategory('kontak')">Kontak</a>
+                </div>
+                <div class="footer-section">
+                    <h3>KEAMANAN & LEGAL</h3>
+                    <a onclick="openModal('privacy')">Kebijakan Privasi</a>
+                    <a onclick="openModal('disclaimer')">Disclaimer</a>
+                    <a onclick="openModal('pedoman')">Pedoman Media Siber</a>
+                    <a onclick="showCategory('kontak')">Laporkan Hoaks</a>
+                </div>
+                <div class="footer-section">
+                    <h3>KONTAK</h3>
+                    <a href="mailto:info@sastrapapua.org">info@sastrapapua.org</a>
+                    <a>+62-274-XXX-XXX</a>
+                    <a>Jayapura, Papua Barat</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-security-badges">
+                    <span class="sec-badge">🔒 SSL / HTTPS Aktif</span>
+                    <span class="sec-badge">🛡️ Anti-Malware</span>
+                    <span class="sec-badge">📜 Media Siber Terdaftar</span>
+                </div>
+                <div style="margin-top: 15px;">
+                    &copy; 2026 SASTRAPAPUA. Semua Hak Dilindungi. |
+                    <a onclick="openModal('privacy')" style="color: #999; cursor: pointer;">Kebijakan Privasi</a> |
+                    <a onclick="openModal('disclaimer')" style="color: #999; cursor: pointer;">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============ DATA ARTIKEL (konten unik per artikel) ============
+        var ARTICLES = {
+            art1: {
+                emoji: '📚', category: 'Linguistik & Penelitian', catKey: 'bahasa',
+                title: 'Bahasa Mee Papua: Persamaan Mengejutkan dengan Bahasa Spanyol',
+                desc: 'Penelitian terbaru mengungkapkan keunikan bahasa Mee dari Papua Barat yang memiliki kesamaan leksikon dengan bahasa Spanyol.',
+                date: '17 September 2026', author: 'Dr. Ahmad Wijaya', location: 'Papua Barat', read: '8 menit',
+                content: `
+                    <p>Dalam penelitian terbaru yang dipublikasikan di jurnal internasional "Linguistics Today", tim peneliti dari Universitas Cendrawasih menemukan fenomena linguistik yang luar biasa. Bahasa Mee, yang dituturkan oleh masyarakat di Kabupaten Jayapura, Papua Barat, memiliki beberapa kata yang memiliki arti yang sama dengan bahasa Spanyol.</p>
+                    <p>Penemuan ini menarik perhatian para ahli bahasa dunia dan membuka pertanyaan baru tentang migrasi bahasa dan perubahan linguistik sepanjang sejarah manusia. "Ini adalah bukti bahwa koneksi budaya dan bahasa dapat terjadi melalui berbagai cara yang belum sepenuhnya kita pahami," ujar Dr. Ahmad Wijaya, ketua penelitian.</p>
+                    <h2>Hasil Penelitian: Tabel Perbandingan Bahasa Mee dan Spanyol</h2>
+                    <p>Berikut adalah tabel perbandingan lengkap yang menunjukkan persamaan kata-kata antara Bahasa Mee dan Bahasa Spanyol beserta artinya dalam Bahasa Indonesia:</p>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr><th>No.</th><th>Bahasa Mee (Papua)</th><th>Bahasa Spanyol</th><th>Arti (Indonesia)</th><th>Kategori</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td><strong>uwii</strong></td><td><em>ir</em></td><td>Pergi</td><td>Verba</td></tr>
+                            <tr><td>2</td><td><strong>nai</strong></td><td><em>comer</em></td><td>Makan</td><td>Verba</td></tr>
+                            <tr><td>3</td><td><strong>doune</strong></td><td><em>ver</em></td><td>Melihat</td><td>Verba</td></tr>
+                            <tr><td>4</td><td><strong>wegai</strong></td><td><em>hablar</em></td><td>Berbicara</td><td>Verba</td></tr>
+                            <tr><td>5</td><td><strong>yuwii</strong></td><td><em>oír</em></td><td>Mendengar</td><td>Verba</td></tr>
+                            <tr><td>6</td><td><strong>you</strong></td><td><em>cocinar</em></td><td>Memasak</td><td>Verba</td></tr>
+                            <tr><td>7</td><td><strong>ugai</strong></td><td><em>escribir</em></td><td>Menulis</td><td>Verba</td></tr>
+                            <tr><td>8</td><td><strong>mei</strong></td><td><em>venir</em></td><td>Datang</td><td>Verba</td></tr>
+                            <tr><td>9</td><td><strong>ekowai</strong></td><td><em>trabajar</em></td><td>Bekerja</td><td>Verba</td></tr>
+                            <tr><td>10</td><td><strong>Uno umii</strong></td><td><em>dormir</em></td><td>Tidur</td><td>Verba</td></tr>
+                        </tbody>
+                    </table>
+                    <h2>Implikasi dan Kesimpulan</h2>
+                    <p>Penelitian ini memberikan bukti empiris bahwa bahasa-bahasa di berbagai belahan dunia dapat memiliki kesamaan leksikal yang signifikan. Meskipun penyebab pasti dari kesamaan ini masih menjadi subjek diskusi akademis, peneliti percaya bahwa ini dapat berkaitan dengan:</p>
+                    <p>1. <strong>Konvergensi Linguistik:</strong> Proses di mana bahasa yang tidak berhubungan mengembangkan fitur-fitur serupa.<br>2. <strong>Kontak Budaya Kuno:</strong> Kemungkinan adanya kontak perdagangan atau budaya di masa lalu.<br>3. <strong>Struktur Bahasa Universal:</strong> Prinsip-prinsip dasar yang mendasari semua bahasa manusia.</p>
+                    <p>Penelitian lanjutan diharapkan dapat mengungkap lebih banyak tentang hubungan unik ini dan kontribusinya terhadap pemahaman kita tentang linguistik global.</p>
+                `
+            },
+            art2: {
+                emoji: '🗺️', category: 'Bahasa', catKey: 'bahasa',
+                title: 'Pemetaan Lengkap Bahasa-Bahasa di Papua',
+                desc: 'Eksplorasi mendalam tentang keragaman linguistik di wilayah Papua Barat dan Papua Timur.',
+                date: '16 September 2026', author: 'Sari Nusantari', location: 'Jayapura', read: '6 menit',
+                content: `
+                    <p>Papua adalah salah satu wilayah paling beragam secara linguistik di dunia. Lebih dari 270 bahasa daerah dituturkan di seluruh wilayah Papua, menjadikannya salah satu titik panas (hotspot) keanekaragaman bahasa global yang harus segera didokumentasikan.</p>
+                    <h2>Kelompok Bahasa Utama</h2>
+                    <p>Bahasa-bahasa di Papua umumnya dikelompokkan ke dalam beberapa rumpun besar, antara lain rumpun bahasa Trans-Nugini, rumpun bahasa Geelvink Bay, dan berbagai bahasa isolat yang belum terklasifikasi dengan jelas. Setiap rumpun memiliki ciri fonologis dan tata bahasa yang berbeda.</p>
+                    <p>Beberapa bahasa dengan penutur terbanyak antara lain bahasa Dani di Lembah Baliem, bahasa Mee di daerah pegunungan tengah, dan bahasa Biak yang digunakan masyarakat pesisir Kepulauan Biak Numfor.</p>
+                    <h2>Tantangan Pelestarian</h2>
+                    <p>Sebagian besar bahasa Papua dikategorikan sebagai bahasa yang terancam punah. Faktor-faktor seperti urbanisasi, dominasi bahasa Indonesia dalam pendidikan, dan minimnya dokumentasi tertulis mempercepat penurunan jumlah penutur muda.</p>
+                    <p>Berbagai lembaga, termasuk universitas dan komunitas adat, kini aktif melakukan pemetaan, perekaman, dan penyusunan kamus untuk memastikan warisan linguistik ini tidak hilang ditelan zaman.</p>
+                `
+            },
+            art3: {
+                emoji: '🔤', category: 'Bahasa', catKey: 'bahasa',
+                title: 'Sistem Penulisan Kuno di Nusantara',
+                desc: 'Temukan sejarah menarik tentang sistem penulisan tradisional yang masih bertahan hingga hari ini.',
+                date: '15 September 2026', author: 'Bagas Aksara', location: 'Yogyakarta', read: '7 menit',
+                content: `
+                    <p>Jauh sebelum huruf Latin diperkenalkan, masyarakat Nusantara telah mengembangkan berbagai sistem aksara asli yang menjadi bukti kecanggihan peradaban lokal. Aksara-aksara ini bukan sekadar alat tulis, melainkan juga karya seni dan identitas budaya.</p>
+                    <h2>Aksara Nusantara yang Terkenal</h2>
+                    <p>Beberapa aksara paling terkenal antara lain aksara Pallawa dan Kawi di Jawa, aksara Batak di Sumatra Utara, aksara Bugis di Sulawesi Selatan, serta aksara Sunda di Jawa Barat. Masing-masing memiliki bentuk, arah tulisan, dan aturan penggunaan yang unik.</p>
+                    <p>Aksara Bugis, misalnya, ditulis miring dari kiri ke kanan dan memiliki aturan khusus untuk huruf vokal yang disebut "anakkuru". Sementara aksara Batak ditulis secara vertikal dan setiap suku bangsa Batak memiliki variasi aksara tersendiri.</p>
+                    <h2>Masa Kini dan Digitalisasi</h2>
+                    <p>Di era digital, banyak aksara tradisional kini diadopsi ke dalam font komputer dan Unicode, sehingga dapat digunakan dalam percakapan daring. Gerakan #AksaraNusantara di media sosial menjadi bukti bahwa minat generasi muda terhadap warisan tulisan ini semakin bangkit.</p>
+                    <p>Pemerintah daerah juga mulai memasukkan pelajaran aksara daerah ke dalam kurikulum sekolah sebagai upaya pelestarian jangka panjang.</p>
+                `
+            },
+            art4: {
+                emoji: '💬', category: 'Bahasa', catKey: 'bahasa',
+                title: 'Bahasa Ibu vs Bahasa Asing: Analisis Mendalam',
+                desc: 'Studi perbandingan tentang pembelajaran bahasa ibu dan bahasa asing pada anak-anak.',
+                date: '14 September 2026', author: 'Dr. Ratna Puji', location: 'Jakarta', read: '6 menit',
+                content: `
+                    <p>Polemik tentang urutan pembelajaran bahasa pada anak terus berlanjut. Mana yang sebaiknya didahulukan: bahasa ibu, bahasa nasional, atau bahasa asing? Riset terbaru memberikan jawaban yang menarik.</p>
+                    <h2>Temuan Riset</h2>
+                    <p>Studi longitudinal yang dilakukan selama 5 tahun menunjukkan bahwa anak yang menguasai bahasa ibu secara kuat sebelum mempelajari bahasa kedua cenderung memiliki kemampuan berpikir kritis dan literasi yang lebih baik di kemudian hari. Bahasa ibu menjadi fondasi kognitif.</p>
+                    <p>Sebaliknya, anak yang langsung "dibuang" ke lingkungan bahasa asing tanpa penguasaan bahasa ibu yang memadai sering kali mengalami kesenjangan identitas dan kesulitan memahami konsep abstrak di sekolah.</p>
+                    <h2>Rekomendasi untuk Orang Tua</h2>
+                    <p>Para ahli merekomendasikan pendekatan "aditif bilingualism": menambah bahasa baru tanpa mengorbankan yang lama. Di rumah, orang tua dianjurkan menggunakan bahasa ibu, sementara bahasa nasional dan asing dipelajari bertahap melalui sekolah dan lingkungan.</p>
+                    <p>Papua, dengan ratusan bahasa daerahnya, menjadi laboratorium alami bagi pendekatan pendidikan multibahasa yang menjadikan bahasa ibu sebagai pintu masuk pembelajaran, bukan penghalang.</p>
+                `
+            },
+            art5: {
+                emoji: '🎪', category: 'Budaya', catKey: 'budaya',
+                title: 'Koneksi Budaya Global: Studi Linguistik Modern',
+                desc: 'Bagaimana bahasa lokal dapat memiliki hubungan dengan bahasa internasional lainnya.',
+                date: '15 September 2026', author: 'Tim Riset Lintas Budaya', location: 'Bandung', read: '5 menit',
+                content: `
+                    <p>Dunia mungkin lebih kecil dari yang kita kira. Temuan-temuan linguistik modern menunjukkan bahwa bahasa-bahasa yang terpisah ribuan kilometer dapat saling terhubung melalui kata, tata bahasa, hingga kosakata budaya.</p>
+                    <h2>Jejak Kata yang Berkelana</h2>
+                    <p>Kata "guru" dalam bahasa Sansekerta, "kuru" dalam bahasa Jepang, hingga istilah-istilah perdagangan kuno yang menyebar dari India ke Nusantara menunjukkan bagaimana jalur sutra dan perdagangan rempah membawa bukan hanya barang, tetapi juga kata.</p>
+                    <p>Bahasa Melayu sendiri membuktikan diri sebagai bahasa perantara yang menyerap kosakata dari Arab, Persia, Tamil, Portugis, Belanda, dan Inggris — sebuah museum hidup sejarah peradaban maritim.</p>
+                    <h2>Pelajaran untuk Masa Kini</h2>
+                    <p>Studi koneksi budaya global mengajarkan kita bahwa tidak ada budaya yang benar-benar "murni" atau terisolasi. Setiap bahasa adalah hasil ribuan tahun pertemuan, perdagangan, pernikahan, dan pertukaran ide.</p>
+                    <p>Bagi generasi digital, pemahaman ini penting: membuka diri terhadap budaya lain bukan ancaman, melainkan kelanjutan dari tradisi kuno nenek moyang kita yang telah berabad-abad menjadi jembatan antar dunia.</p>
+                `
+            },
+            art6: {
+                emoji: '🏛️', category: 'Budaya', catKey: 'budaya',
+                title: 'Warisan Budaya Nusantara di Era Digital',
+                desc: 'Bagaimana teknologi membantu melestarikan warisan budaya tradisional Indonesia untuk generasi mendatang.',
+                date: '13 September 2026', author: 'Melati Saraswati', location: 'Surabaya', read: '6 menit',
+                content: `
+                    <p>Candi, keris, batik, dan wayang — warisan budaya Nusantara kini tidak hanya bisa disaksikan langsung, tetapi juga melalui layar genggam. Era digital membawa peluang sekaligus tantangan baru bagi pelestarian budaya.</p>
+                    <h2>Teknologi sebagai Penjaga Warisan</h2>
+                    <p>Digitalisasi arsip, pemindaian 3D artefak museum, hingga tur virtual candi-candi besar memungkinkan siapa pun di dunia mengakses kekayaan budaya Indonesia. Proyek digitalisasi manuskrip kuno di perpustakaan daerah menyelamatkan ribuan teks dari kerusakan fisik.</p>
+                    <p>Platform video pendek menjadi medium tak terduga: konten kreator muda yang memperagakan tarian tradisional atau menjelaskan filosofi batik kini mencapai jutaan penonton, jauh lebih banyak dibanding pengunjung museum dalam setahun.</p>
+                    <h2>Tantangan yang Nyata</h2>
+                    <p>Namun digitalisasi juga menyimpan risiko. Konteks budaya bisa terkikis ketika tarian sakral dipotong menjadi video 15 detik, atau ketika motif suci direproduksi tanpa izin komunitas adat.</p>
+                    <p>Pemerintah melalui berbagai program perlindungan kekayaan intelektual komunal mulai mendaftarkan warisan budaya agar hak komunitas adat diakui. Pelestarian digital yang bertanggung jawab menuntut kolaborasi antara teknolog, budayawan, dan pemilik adat.</p>
+                `
+            },
+            art7: {
+                emoji: '🎨', category: 'Budaya', catKey: 'budaya',
+                title: 'Seni Tradisional: Ekspresi Jiwa Sebuah Bangsa',
+                desc: 'Eksplorasi tentang berbagai bentuk seni tradisional dan makna filosofisnya dalam kehidupan masyarakat.',
+                date: '12 September 2026', author: 'Yoga Pramana', location: 'Bali', read: '7 menit',
+                content: `
+                    <p>Seni tradisional bukan sekadar hiasan — ia adalah bahasa jiwa suatu bangsa yang diwariskan turun-temurun. Setiap goresan, anyaman, dan dentingan membawa filosofi yang hidup dalam keseharian masyarakat.</p>
+                    <h2>Ragam Seni Tradisional</h2>
+                    <p>Indonesia memiliki kekayaan seni yang luar biasa: ukiran Asmat di Papua yang menggambarkan roh leluhur, batik tulis dengan filosofi tiap motif, anyaman pandan Lombok, hingga tenun ikat NTT yang satu helainya dapat memakan waktu berbulan-bulan.</p>
+                    <p>Di Papua sendiri, seni ukir Asmat diakui dunia dan menjadi salah satu koleksi paling dicari di museum-museum internasional. Setiap patung pohon kehidupan (mbis) menceritakan kosmologi masyarakat Asmat.</p>
+                    <h2>Memaknai, Bukan Sekadar Memandang</h2>
+                    <p>Ke depan, tantangan terbesar adalah membuat generasi muda tidak hanya kagum pada keindahan, tetapi memahami makna. Sekolah-sekolah seni dan sanggar komunitas menjadi garda terdepan pendidikan estetika tradisional.</p>
+                    <p>Ketika seorang anak memahami bahwa motif di kainnya adalah doa dan sejarah keluarganya, seni tradisional berubah dari barang pajangan menjadi identitas yang hidup.</p>
+                `
+            },
+            art8: {
+                emoji: '🎵', category: 'Budaya', catKey: 'budaya',
+                title: 'Musik Tradisional: Irama Masa Lalu yang Masih Hidup',
+                desc: 'Tentang instrumen musik tradisional dan lagu-lagu daerah yang memiliki nilai historis tinggi.',
+                date: '11 September 2026', author: 'Dewi Lestari', location: 'Makassar', read: '5 menit',
+                content: `
+                    <p>Sebelum ada konser stadium dan streaming musik, nenek moyang Nusantara telah menciptakan orkestra sendiri dari bambu, kulit, dan logam. Musik tradisional adalah arsip hidup sejarah suatu daerah.</p>
+                    <h2>Instrumen Legendaris</h2>
+                    <p>Angklung dari Jawa Barat yang berpadu dalam harmoni kolektif, gamelan Jawa-Bali yang megah, sasando dari Nusa Tenggara Timur yang diciptakan dari daun lontar, hingga tifa dari Papua yang menggetarkan upacara adat — semuanya lahir dari kedekatan manusia dengan alam.</p>
+                    <p>Tifa, khas masyarakat Papua, dibuat dari kulit kayu dan kulit hewan. Pola pukulannya bukan sekadar irama, tetapi juga bahasa: ritme tertentu menandakan penyambutan tamu, pemberitahuan upacara, bahkan sinyal peringatan.</p>
+                    <h2>Revitalisasi di Era Modern</h2>
+                    <p>Musisi muda kini mulai memadukan instrumen tradisional dengan genre modern — tifa berpadu dengan gitar elektrik, sasando berkolaborasi dengan orkestra simfoni. Fusi ini membuktikan bahwa musik tradisional tidak usang, hanya menunggu pendengar baru.</p>
+                    <p>Pemerintah melalui hari-hari besar nasional terus memberikan panggung bagi musisi tradisional, memastikan irama masa lalu terus bergema di masa depan.</p>
+                `
+            }
+        };
+
+        var AD_URL = 'https://alasveenuz.vercel.app/index.html';
+        var lastPage = 'home-page';
+        var currentArticle = null;
+        var adPopupTimeout;
+        var adShownCount = 0;
+        var MAX_AD_POPUPS = 3;
+
+        // ============ NAVIGATION ============
+        function setActiveNav(navId) {
+            document.querySelectorAll('.nav a').forEach(function(link) { link.classList.remove('active'); });
+            var el = document.getElementById(navId);
+            if (el) el.classList.add('active');
+        }
+
+        function hideAllPages() {
+            ['home-page', 'article-detail-page', 'category-bahasa', 'category-budaya', 'category-kontak'].forEach(function(id) {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function showHome() {
+            hideAllPages();
+            document.getElementById('home-page').classList.remove('hidden');
+            setActiveNav('nav-home');
+            window.scrollTo(0, 0);
+        }
+
+        function showCategory(category) {
+            hideAllPages();
+            document.getElementById('category-' + category).classList.remove('hidden');
+            setActiveNav('nav-' + category);
+            window.scrollTo(0, 0);
+        }
+
+        function showArticle(articleId) {
+            currentArticle = articleId;
+            var a = ARTICLES[articleId];
+            if (!a) return;
+            hideAllPages();
+            // catat halaman asal untuk tombol kembali
+            if (!document.getElementById('category-' + a.catKey).classList.contains('hidden')) {
+                lastPage = 'category-' + a.catKey;
+            } else if (!document.getElementById('home-page').classList.contains('hidden')) {
+                lastPage = 'home-page';
+            }
+            document.getElementById('detail-image').textContent = a.emoji;
+            document.getElementById('detail-category').textContent = a.category;
+            document.getElementById('detail-title').textContent = a.title;
+            document.getElementById('detail-meta').innerHTML =
+                '<span>📅 ' + a.date + '</span><span>👤 ' + a.author + '</span>' +
+                '<span>📍 ' + a.location + '</span><span>⏱️ ' + a.read + ' baca</span>';
+            document.getElementById('detail-content').innerHTML = a.content;
+            document.getElementById('article-detail-page').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            hideAllPages();
+            document.getElementById(lastPage).classList.remove('hidden');
+            if (lastPage === 'home-page') setActiveNav('nav-home');
+            else if (lastPage === 'category-bahasa') setActiveNav('nav-bahasa');
+            else if (lastPage === 'category-budaya') setActiveNav('nav-budaya');
+            window.scrollTo(0, 0);
+        }
+
+        // ============ RENDER KARTU ARTIKEL ============
+        function cardHTML(id) {
+            var a = ARTICLES[id];
+            return '<div class="article-card" onclick="showArticle(\'' + id + '\')">' +
+                '<div class="article-image">' + a.emoji + '</div>' +
+                '<div class="article-content">' +
+                '<div class="article-category">' + a.category + '</div>' +
+                '<h3 class="article-title">' + a.title + '</h3>' +
+                '<p class="article-desc">' + a.desc + '</p>' +
+                '<div class="article-meta">' + a.date + '</div>' +
+                '</div></div>';
+        }
+
+        function renderGrids() {
+            // Beranda: 2 artikel terkait
+            document.getElementById('home-grid').innerHTML = cardHTML('art2') + cardHTML('art5');
+            // Kategori Bahasa
+            document.getElementById('grid-bahasa').innerHTML =
+                cardHTML('art1') + cardHTML('art2') + cardHTML('art3') + cardHTML('art4');
+            // Kategori Budaya
+            document.getElementById('grid-budaya').innerHTML =
+                cardHTML('art5') + cardHTML('art6') + cardHTML('art7') + cardHTML('art8');
+        }
+
+        // ============ IKLAN ============
+        function openAdSite() {
+            window.open(AD_URL, '_blank');
+        }
+
+        function scheduleAdPopup() {
+            if (adShownCount >= MAX_AD_POPUPS) return; // maksimal 3x saja
+            clearTimeout(adPopupTimeout);
+            var randomDelay = Math.random() * 30000 + 30000; // 30-60 detik
+            adPopupTimeout = setTimeout(showAdPopup, randomDelay);
+        }
+
+        function showAdPopup() {
+            if (adShownCount >= MAX_AD_POPUPS) return;
+            document.getElementById('ad-popup').classList.remove('hidden');
+            adShownCount++;
+        }
+
+        function closeAdPopup() {
+            document.getElementById('ad-popup').classList.add('hidden');
+            scheduleAdPopup();
+        }
+
+        // ============ KEAMANAN: COOKIE & MODAL ============
+        function acceptCookies() {
+            document.getElementById('cookie-banner').classList.add('hidden');
+            try { localStorage.setItem('sastrapapua_cookie', 'accepted'); } catch (e) {}
+        }
+
+        function openModal(type) {
+            var title = '', body = '';
+            if (type === 'privacy') {
+                title = '🔒 Kebijakan Privasi';
+                body = '<p>SASTRAPAPUA menghormati privasi setiap pengunjung. Kami hanya mengumpulkan data minimum seperti preferensi tampilan melalui cookie untuk meningkatkan pengalaman membaca Anda.</p>' +
+                    '<p>Data pribadi yang Anda kirimkan melalui halaman Kontak (nama, email, isi pesan) hanya digunakan untuk keperluan layanan pelanggan dan tidak dibagikan kepada pihak ketiga tanpa persetujuan Anda.</p>' +
+                    '<p>Situs ini menggunakan koneksi HTTPS terenkripsi untuk melindungi data yang berpindah antara perangkat Anda dan server kami.</p>';
+            } else if (type === 'disclaimer') {
+                title = '⚠️ Disclaimer';
+                body = '<p>Seluruh konten di SASTRAPAPUA disusun untuk tujuan informasi dan edukasi. Meskipun redaksi berupaya menyajikan berita yang akurat dan terverifikasi, kami tidak bertanggung jawab atas keputusan yang diambil pembaca berdasarkan informasi di situs ini.</p>' +
+                    '<p>Artikel yang bersifat opini atau hasil penelitian mencantumkan sumber dan tanggal publikasi. Konten iklan yang ditampilkan adalah tanggung jawab pengiklan masing-masing.</p>';
+            } else if (type === 'pedoman') {
+                title = '📜 Pedoman Media Siber';
+                body = '<p>Sebagaimana amanat Persatuan Pewarta Warga Indonesia (PWI) dan Dewan Pers, SASTRAPAPUA berkomitmen pada:</p>' +
+                    '<p>1. Menempuh prinsip verifikasi sebelum publikasi.<br>2. Memberikan hak jawab dan hak koreksi.<br>3. Menghindari konten hoaks, ujaran kebencian, dan pornografi.<br>4. Menyediakan kanal laporan konten yang mudah diakses.</p>' +
+                    '<p>Koreksi atas berita yang keliru akan ditayangkan dengan label "KOREKSI" secara terbuka.</p>';
+            }
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = body;
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        // ============ LAPORAN HOAKS ============
+        function reportArticle() {
+            alert('🛡️ Laporan Anda telah diterima. Tim verifikasi kami akan meninjau artikel ini dalam 1x24 jam. Terima kasih!');
+        }
+
+        function submitReport() {
+            var t = document.getElementById('report-text');
+            if (!t.value.trim()) { alert('Silakan isi laporan terlebih dahulu.'); return; }
+            t.value = '';
+            document.getElementById('report-msg').textContent = '✅ Laporan terkirim!';
+            setTimeout(function() { document.getElementById('report-msg').textContent = ''; }, 4000);
+        }
+
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGrids();
+            scheduleAdPopup();
+
+            // Cookie banner muncul jika belum pernah diterima
+            var accepted = false;
+            try { accepted = localStorage.getItem('sastrapapua_cookie') === 'accepted'; } catch (e) {}
+            if (!accepted) {
+                setTimeout(function() {
+                    document.getElementById('cookie-banner').classList.remove('hidden');
+                }, 2000);
+            }
+
+            // Pop-up pertama setelah 15 detik
+            setTimeout(function() {
+                if (adShownCount === 0) showAdPopup();
+            }, 15000);
+        });
+    </script>
+</body>
+</html>
